@@ -7,11 +7,7 @@ import tseslint from 'typescript-eslint';
 export default defineConfig(
   // 🔹 Ignore tooling & build files
   {
-    ignores: [
-      'eslint.config.mjs',
-      'dist',
-      'node_modules',
-    ],
+    ignores: ['eslint.config.mjs', 'dist', 'node_modules'],
   },
 
   // 🔹 Base ESLint rules
@@ -31,7 +27,7 @@ export default defineConfig(
   },
   {
     rules: {
-      'dot-notation':'error',
+      'dot-notation': 'error',
     },
   },
 );
