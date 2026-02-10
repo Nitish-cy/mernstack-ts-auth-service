@@ -1,15 +1,19 @@
+import 'reflect-metadata';
 import express from 'express';
 import type { Request, Response, NextFunction } from 'express';
 import logger from './config/logger.js';
 import createHttpError from 'http-errors';
-
+import authRouter from './routes/auth.js';
 const app = express();
 
 app.get('/', (req, res) => {
   res.send('Welcome to Auth Service');
 });
 
-// Global error handler
+//routes
+app.use('/auth', authRouter);
+
+// Global error handle
 app.use(
   (
     err: unknown,
