@@ -7,7 +7,7 @@ import tseslint from 'typescript-eslint';
 export default defineConfig(
   // 🔹 Ignore tooling & build files
   {
-    ignores: ['eslint.config.mjs', 'dist', 'node_modules','jest.config.js'],
+    ignores: ['eslint.config.mjs', 'dist', 'node_modules', 'jest.config.js'],
   },
 
   // 🔹 Base ESLint rules
@@ -20,8 +20,8 @@ export default defineConfig(
   {
     languageOptions: {
       parserOptions: {
-       // projectService: true,
-       project: './tsconfig.json',
+        // projectService: true,
+        project: './tsconfig.json',
         tsconfigRootDir: import.meta.dirname,
       },
     },
