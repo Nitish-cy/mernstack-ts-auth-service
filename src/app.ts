@@ -5,7 +5,7 @@ import logger from './config/logger.js';
 import createHttpError from 'http-errors';
 import authRouter from './routes/auth.js';
 const app = express();
-
+app.use(express.json());
 app.get('/', (req, res) => {
   res.send('Welcome to Auth Service');
 });

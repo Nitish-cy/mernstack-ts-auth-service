@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest",
-    "dev": "nodemon --exec node --loader ts-node/esm src/server.ts",
+    "dev": "cross-env NODE_ENV=dev nodemon --exec node --loader ts-node/esm src/server.ts",
     "format:fix": "prettier . --write",
     "format:check": "prettier . --write",
     "lint:check": "eslint .",
