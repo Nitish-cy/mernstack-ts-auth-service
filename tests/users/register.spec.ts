@@ -5,7 +5,7 @@ import { DataSource } from 'typeorm';
 import { AppDataSource } from '../../src/config/data-source';
 import { Roles } from '../../src/constants';
 import { isJwt } from '../utils';
-import { RefreshToMishraen } from '../../src/entity/RefreshToMishraen';
+import { RefreshToken } from '../../src/entity/RefreshToken';
 
 describe('POST /auth/register', () => {
   let connection: DataSource;
@@ -28,9 +28,9 @@ describe('POST /auth/register', () => {
     it('should return the 201 status code', async () => {
       // Arrange
       const userData = {
-        firstName: 'Nitish',
-        lastName: 'Mishra',
-        email: 'Nitish@mern.space',
+        firstName: 'Rakesh',
+        lastName: 'K',
+        email: 'rakesh@mern.space',
         password: 'password',
       };
       // Act
@@ -43,9 +43,9 @@ describe('POST /auth/register', () => {
     it('should return valid json response', async () => {
       // Arrange
       const userData = {
-        firstName: 'Nitish',
-        lastName: 'Mishra',
-        email: 'Nitish@mern.space',
+        firstName: 'Rakesh',
+        lastName: 'K',
+        email: 'rakesh@mern.space',
         password: 'password',
       };
       // Act
@@ -60,9 +60,9 @@ describe('POST /auth/register', () => {
     it('should persist the user in the database', async () => {
       // Arrange
       const userData = {
-        firstName: 'Nitish',
-        lastName: 'Mishra',
-        email: 'Nitish@mern.space',
+        firstName: 'Rakesh',
+        lastName: 'K',
+        email: 'rakesh@mern.space',
         password: 'password',
       };
       // Act
@@ -80,9 +80,9 @@ describe('POST /auth/register', () => {
     it('should return an id of the created user', async () => {
       // Arrange
       const userData = {
-        firstName: 'Nitish',
-        lastName: 'Mishra',
-        email: 'Nitish@mern.space',
+        firstName: 'Rakesh',
+        lastName: 'K',
+        email: 'rakesh@mern.space',
         password: 'password',
       };
       // Act
@@ -98,9 +98,9 @@ describe('POST /auth/register', () => {
     it('should assign a customer role', async () => {
       // Arrange
       const userData = {
-        firstName: 'Nitish',
-        lastName: 'Mishra',
-        email: 'Nitish@mern.space',
+        firstName: 'Rakesh',
+        lastName: 'K',
+        email: 'rakesh@mern.space',
         password: 'password',
       };
       // Act
@@ -116,9 +116,9 @@ describe('POST /auth/register', () => {
     it('should store the hashed password in the database', async () => {
       // Arrange
       const userData = {
-        firstName: 'Nitish',
-        lastName: 'Mishra',
-        email: 'Nitish@mern.space',
+        firstName: 'Rakesh',
+        lastName: 'K',
+        email: 'rakesh@mern.space',
         password: 'password',
       };
       // Act
@@ -135,9 +135,9 @@ describe('POST /auth/register', () => {
     it('should return 400 status code if email is already exists', async () => {
       // Arrange
       const userData = {
-        firstName: 'Nitish',
-        lastName: 'Mishra',
-        email: 'Nitish@mern.space',
+        firstName: 'Rakesh',
+        lastName: 'K',
+        email: 'rakesh@mern.space',
         password: 'password',
       };
       const userRepository = connection.getRepository(User);
@@ -152,12 +152,12 @@ describe('POST /auth/register', () => {
       expect(users).toHaveLength(1);
     });
 
-    it('should return the access toMishraen and refresh toMishraen inside a cooMishraie', async () => {
+    it('should return the access token and refresh token inside a cookie', async () => {
       // Arrange
       const userData = {
-        firstName: 'Nitish',
-        lastName: 'Mishra',
-        email: 'Nitish@mern.space',
+        firstName: 'Rakesh',
+        lastName: 'K',
+        email: 'rakesh@mern.space',
         password: 'password',
       };
 
@@ -165,35 +165,34 @@ describe('POST /auth/register', () => {
       const response = await request(app).post('/auth/register').send(userData);
 
       interface Headers {
-        ['set-cooMishraie']: string[];
+        ['set-cookie']: string[];
       }
       // Assert
-      let accessToMishraen = null;
-      let refreshToMishraen = null;
-      const cooMishraies =
-        (response.headers as Headers)['set-cooMishraie'] || [];
-      // accessToMishraen=eyJhbGciOiJSUzI1NiIsInR5cCI6IMishrapXVCJ9.eyJpZCI6MSwicm9sZSI6ImFMishrabWluIiwiaWF0IjoxNjMishrazOTA5Mjc2LCJleHAiOjE2OTM5MDMishrazMzYsImlzcyI6Im1lcm5zcGFjZSJ9.MishraetQMEzY36vxhO6WMishrawSR-P_feRU1yI-nJtp6RhCEZQTPlQlmVsNTP7mO-qfCdBr0gszxHi9Jd1mqf-hGhfiMishra8BRA_Zy2CH9xpPTBud_luqLMvfPiz3gYR24jPjDxfZJscdhE_AIL6Uv2fxCMishravLba17X0WbefJSy4rtx3ZyLMishrabnnbelIqu5J5_7lz4aIMishraHjt-rb_sBaoQ0l8wE5MishrazyDNy7mGUf7cI_yR8D8VlO7x9llbhvCHF8ts6YSBRBt_e2Mjg5txtfBaDq5auCTXQ2lmnJtMb75t1nAFu8MishrawQPrDYmwtGZDMishraHUcpQhlP7R-y3H99YnrWpXbP8Zr_oO67hWnoCSw; Max-Age=43200; Domain=localhost; Path=/; Expires=Tue, 05 Sep 2023 22:21:16 GMT; HttpOnly; SameSite=Strict
-      cooMishraies.forEach((cooMishraie) => {
-        if (cooMishraie.startsWith('accessToMishraen=')) {
-          accessToMishraen = cooMishraie.split(';')[0].split('=')[1];
+      let accessToken = null;
+      let refreshToken = null;
+      const cookies = (response.headers as Headers)['set-cookie'] || [];
+      // accessToken=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNjkzOTA5Mjc2LCJleHAiOjE2OTM5MDkzMzYsImlzcyI6Im1lcm5zcGFjZSJ9.KetQMEzY36vxhO6WKwSR-P_feRU1yI-nJtp6RhCEZQTPlQlmVsNTP7mO-qfCdBr0gszxHi9Jd1mqf-hGhfiK8BRA_Zy2CH9xpPTBud_luqLMvfPiz3gYR24jPjDxfZJscdhE_AIL6Uv2fxCKvLba17X0WbefJSy4rtx3ZyLkbnnbelIqu5J5_7lz4aIkHjt-rb_sBaoQ0l8wE5KzyDNy7mGUf7cI_yR8D8VlO7x9llbhvCHF8ts6YSBRBt_e2Mjg5txtfBaDq5auCTXQ2lmnJtMb75t1nAFu8KwQPrDYmwtGZDkHUcpQhlP7R-y3H99YnrWpXbP8Zr_oO67hWnoCSw; Max-Age=43200; Domain=localhost; Path=/; Expires=Tue, 05 Sep 2023 22:21:16 GMT; HttpOnly; SameSite=Strict
+      cookies.forEach((cookie) => {
+        if (cookie.startsWith('accessToken=')) {
+          accessToken = cookie.split(';')[0].split('=')[1];
         }
 
-        if (cooMishraie.startsWith('refreshToMishraen=')) {
-          refreshToMishraen = cooMishraie.split(';')[0].split('=')[1];
+        if (cookie.startsWith('refreshToken=')) {
+          refreshToken = cookie.split(';')[0].split('=')[1];
         }
       });
-      expect(accessToMishraen).not.toBeNull();
-      expect(refreshToMishraen).not.toBeNull();
+      expect(accessToken).not.toBeNull();
+      expect(refreshToken).not.toBeNull();
 
-      expect(isJwt(accessToMishraen)).toBeTruthy();
-      expect(isJwt(refreshToMishraen)).toBeTruthy();
+      expect(isJwt(accessToken)).toBeTruthy();
+      expect(isJwt(refreshToken)).toBeTruthy();
     });
-    it('should store the refresh toMishraen in the database', async () => {
+    it('should store the refresh token in the database', async () => {
       // Arrange
       const userData = {
-        firstName: 'Nitish',
-        lastName: 'Mishra',
-        email: 'Nitish@mern.space',
+        firstName: 'Rakesh',
+        lastName: 'K',
+        email: 'rakesh@mern.space',
         password: 'password',
       };
 
@@ -201,25 +200,25 @@ describe('POST /auth/register', () => {
       const response = await request(app).post('/auth/register').send(userData);
 
       // Assert
-      const refreshToMishraenRepo = connection.getRepository(RefreshToMishraen);
-      // const refreshToMishraens = await refreshToMishraenRepo.find();
+      const refreshTokenRepo = connection.getRepository(RefreshToken);
+      // const refreshTokens = await refreshTokenRepo.find();
 
-      const toMishraens = await refreshToMishraenRepo
-        .createQueryBuilder('refreshToMishraen')
-        .where('refreshToMishraen.userId = :userId', {
+      const tokens = await refreshTokenRepo
+        .createQueryBuilder('refreshToken')
+        .where('refreshToken.userId = :userId', {
           userId: (response.body as Record<string, string>).id,
         })
         .getMany();
 
-      expect(toMishraens).toHaveLength(1);
+      expect(tokens).toHaveLength(1);
     });
   });
   describe('Fields are missing', () => {
     it('should return 400 status code if email field is missing', async () => {
       // Arrange
       const userData = {
-        firstName: 'Nitish',
-        lastName: 'Mishra',
+        firstName: 'Rakesh',
+        lastName: 'K',
         email: '',
         password: 'password',
       };
@@ -237,8 +236,8 @@ describe('POST /auth/register', () => {
       // Arrange
       const userData = {
         firstName: '',
-        lastName: 'Mishra',
-        email: 'Nitish@mern.space',
+        lastName: 'K',
+        email: 'rakesh@mern.space',
         password: 'password',
       };
       // Act
@@ -253,9 +252,9 @@ describe('POST /auth/register', () => {
     it('should return 400 status code if lastName is missing', async () => {
       // Arrange
       const userData = {
-        firstName: 'Nitish',
+        firstName: 'Rakesh',
         lastName: '',
-        email: 'Nitish@mern.space',
+        email: 'rakesh@mern.space',
         password: 'password',
       };
       // Act
@@ -271,9 +270,9 @@ describe('POST /auth/register', () => {
     it('should return 400 status code if password is missing', async () => {
       // Arrange
       const userData = {
-        firstName: 'Nitish',
-        lastName: 'Mishra',
-        email: 'Nitish@mern.space',
+        firstName: 'Rakesh',
+        lastName: 'K',
+        email: 'rakesh@mern.space',
         password: '',
       };
       // Act
@@ -291,9 +290,9 @@ describe('POST /auth/register', () => {
     it('should trim the email field', async () => {
       // Arrange
       const userData = {
-        firstName: 'Nitish',
-        lastName: 'Mishra',
-        email: ' Nitish@mern.space ',
+        firstName: 'Rakesh',
+        lastName: 'K',
+        email: ' rakesh@mern.space ',
         password: 'password',
       };
       // Act
@@ -303,14 +302,14 @@ describe('POST /auth/register', () => {
       const userRepository = connection.getRepository(User);
       const users = await userRepository.find();
       const user = users[0];
-      expect(user.email).toBe('Nitish@mern.space');
+      expect(user.email).toBe('rakesh@mern.space');
     });
     it('should return 400 status code if email is not a valid email', async () => {
       // Arrange
       const userData = {
-        firstName: 'Nitish',
-        lastName: 'Mishra',
-        email: 'Nitish_mern.space', // Invalid email
+        firstName: 'Rakesh',
+        lastName: 'K',
+        email: 'rakesh_mern.space', // Invalid email
         password: 'password',
       };
       // Act
@@ -325,9 +324,9 @@ describe('POST /auth/register', () => {
     it('should return 400 status code if password length is less than 8 chars', async () => {
       // Arrange
       const userData = {
-        firstName: 'Nitish',
-        lastName: 'Mishra',
-        email: 'Nitish@mern.space',
+        firstName: 'Rakesh',
+        lastName: 'K',
+        email: 'rakesh@mern.space',
         password: 'pass', // less than 8 chars
       };
       // Act
@@ -342,8 +341,8 @@ describe('POST /auth/register', () => {
     it('shoud return an array of error messages if email is missing', async () => {
       // Arrange
       const userData = {
-        firstName: 'Nitish',
-        lastName: 'Mishra',
+        firstName: 'Rakesh',
+        lastName: 'K',
         email: '',
         password: 'password',
       };
